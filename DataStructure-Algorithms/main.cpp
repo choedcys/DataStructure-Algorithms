@@ -1,22 +1,38 @@
-//4
+//5
 #include<iostream>
 #include<queue>
 
 int main(){
-    std::queue<int> Q;
-    int N;
-    int temp;
-    scanf("%d", &N);
-    for(int i = 1 ; i <= N ; i++){
+    std::queue<int>Q;
+    int num, interval;
+    int count = 0;
+    printf("총인원 간격 : ");
+    scanf("%d %d", &num, &interval);
+    for(int i = 1 ; i <= num ; i++){
         Q.push(i);
     }
-    for(int i = 0 ; i < N-1 ; i++){
-        printf("%d ",Q.front());
-        Q.pop();//버리기
-        temp = Q.front();//카드를 빼서
-        Q.pop();//일단 버리고,
-        Q.push(temp);//아래에 있는 카드 밑으로 옮기기
+    printf("<");
+    while(1){
+        if(Q.size() == 1){
+            printf("%d", Q.front());
+            break;
+        }
+        if(interval != 1){
+            if(count != 0 && count%interval == interval-1){
+                printf("%d, ", Q.front());
+                Q.pop();
+            }
+            else{
+                int temp = Q.front();
+                Q.pop();
+                Q.push(temp);
+            }
+        }
+        else{
+            printf("%d, ",Q.front());
+            Q.pop();
+        }
+        count++;
     }
-    printf("\n");
-    printf("%d", Q.front());
+    printf(">");
 }
