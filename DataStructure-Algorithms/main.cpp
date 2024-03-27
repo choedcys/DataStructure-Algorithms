@@ -1,42 +1,22 @@
-//3
+//4
 #include<iostream>
 #include<queue>
 
-typedef struct{
-    int priority;
-    int number;
-}Priority_Target;
-
-Priority_Target searching(std::queue<Priority_Target> work, int location){
-    for(int i = 0 ; i < location ; i++){
-        work.pop();
-    }
-    return work.front();
-}
 int main(){
-    std::queue<Priority_Target> work;
-    int num, location, temp;
-    int ans = 1;
-    printf("문서의 개수 / 몇번째 문서: ");
-    scanf("%d %d", &num, &location);
-    printf("문서의 중요도: ");
-    for(int i = 0 ; i < num ; i++){//중요도 입력
-        scanf("%d", &temp);
-        Priority_Target obj;
-        obj.priority = temp;
-        obj.number = i;
-        work.push(obj);
+    std::queue<int> Q;
+    int N;
+    int temp;
+    scanf("%d", &N);
+    for(int i = 1 ; i <= N ; i++){
+        Q.push(i);
     }
-    Priority_Target target = searching(work, location);//원하는 문서의 정보
-    while(!work.empty()){
-        if(work.front().priority < target.priority)
-            num--;
-        else if(work.front().priority == target.priority){
-            if(work.front().number > target.number)
-                num--;
-        }
-        work.pop();
+    for(int i = 0 ; i < N-1 ; i++){
+        printf("%d ",Q.front());
+        Q.pop();//버리기
+        temp = Q.front();//카드를 빼서
+        Q.pop();//일단 버리고,
+        Q.push(temp);//아래에 있는 카드 밑으로 옮기기
     }
-    printf("%d번째 인쇄\n", num);
-
+    printf("\n");
+    printf("%d", Q.front());
 }
