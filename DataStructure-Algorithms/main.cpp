@@ -1,34 +1,42 @@
+//3
 #include<iostream>
-#include<stack>
+#include<queue>
 
-int main(){
-    std::stack<int> enQ;
-    std::stack<int> DQ;
-    int cursor = 0;
-    while(cursor != 4){
-        printf("1. 인큐\n2. 디큐\n3. 피크\n4. 종료\n==>");
-        scanf("%d", &cursor);
-        if(cursor == 1){
-            int data;
-            scanf("%d", &data);
-            enQ.push(data);
-        }
-        else if(cursor == 2){
-            if(DQ.empty()){
-                printf("DQ큐 비어있음\n");
-                while(!enQ.empty()){
-                    DQ.push(enQ.top());
-                    enQ.pop();
-                }
-            }
-            printf("%d\n", DQ.top());
-            DQ.pop();
-        }
-        else if(cursor == 3){
-            printf("%d ", DQ.top());
-        }
-        else if(cursor == 4){
-            break;
-        }
+typedef struct{
+    int priority;
+    int number;
+}Priority_Target;
+
+Priority_Target searching(std::queue<Priority_Target> work, int location){
+    for(int i = 0 ; i < location ; i++){
+        work.pop();
     }
+    return work.front();
+}
+int main(){
+    std::queue<Priority_Target> work;
+    int num, location, temp;
+    int ans = 1;
+    printf("문서의 개수 / 몇번째 문서: ");
+    scanf("%d %d", &num, &location);
+    printf("문서의 중요도: ");
+    for(int i = 0 ; i < num ; i++){//중요도 입력
+        scanf("%d", &temp);
+        Priority_Target obj;
+        obj.priority = temp;
+        obj.number = i;
+        work.push(obj);
+    }
+    Priority_Target target = searching(work, location);//원하는 문서의 정보
+    while(!work.empty()){
+        if(work.front().priority < target.priority)
+            num--;
+        else if(work.front().priority == target.priority){
+            if(work.front().number > target.number)
+                num--;
+        }
+        work.pop();
+    }
+    printf("%d번째 인쇄\n", num);
+
 }
